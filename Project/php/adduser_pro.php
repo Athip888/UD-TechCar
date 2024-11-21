@@ -4,7 +4,9 @@ require('../config/dbconnect.php');
 
 // รับข้อมูลจากฟอร์ม
 $user_id = $_POST['user_id'];
-$fullname = $_POST['fullname'];
+$prefix =  $_POST['prefix'];
+$firstname = $_POST['firstname'];
+$lastname = $_POST['lastname'];
 $password = $_POST['password'];
 $position = $_POST['position'];
 $department = $_POST['department'];
@@ -12,7 +14,9 @@ $role = $_POST['role'];
 
 // ป้องกัน SQL Injection
 $user_id = mysqli_real_escape_string($connect, $user_id);
-$fullname = mysqli_real_escape_string($connect, $fullname);
+$prefix = mysqli_real_escape_string($connect, $prefix);
+$firstname = mysqli_real_escape_string($connect, $firstname);
+$lastname = mysqli_real_escape_string($connect, $lastname);
 $password = mysqli_real_escape_string($connect, $password);
 $position = mysqli_real_escape_string($connect, $position);
 $department = mysqli_real_escape_string($connect, $department);
@@ -34,8 +38,8 @@ if (mysqli_num_rows($query_check_user_id) > 0) {
     $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
     // เพิ่มข้อมูลผู้ใช้ใหม่
-    $sql = "INSERT INTO users (user_id, fullname, password, position, department, role) 
-            VALUES ('$user_id', '$fullname', '$hashed_password', '$position', '$department', '$role')";
+    $sql = "INSERT INTO users (user_id, prefix, firstname, lastname, password, position, department, role) 
+            VALUES ('$user_id', '$prefix', '$firstname', '$lastname', '$hashed_password', '$position', '$department', '$role')";
 
     // mysqli_queryจะส่งคำสั่งsqlไปฐานข้อมูลผ่านตัวแปรconnect ถ้าคำสั่งsqlสำเร็จจะส่งค่าtrue
     if (mysqli_query($connect, $sql)) {

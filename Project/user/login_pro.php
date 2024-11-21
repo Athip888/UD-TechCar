@@ -24,14 +24,18 @@ if (mysqli_num_rows($query_check_user_id) == 1) {
         if ($user['role'] == 'admin') {
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['role'] = $user['role'];
-            $_SESSION['fullname'] = $user['fullname'];
+            $_SESSION['prefix'] = $user['prefix'];
+            $_SESSION['firstname'] = $user['firstname'];
+            $_SESSION['lastname'] = $user['lastname'];
             $_SESSION['position'] = $user['position'];
             $_SESSION['department'] = $user['department'];
             die(header('Location: ../php/admin.php'));
         }else {
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['role'] = $user['role'];
-            $_SESSION['fullname'] = $user['fullname'];
+            $_SESSION['prefix'] = $user['prefix'];
+            $_SESSION['firstname'] = $user['firstname'];
+            $_SESSION['lastname'] = $user['lastname'];
             $_SESSION['position'] = $user['position'];
             $_SESSION['department'] = $user['department'];
             die(header('Location: home.php'));

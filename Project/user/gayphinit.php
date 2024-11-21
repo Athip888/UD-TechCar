@@ -144,10 +144,10 @@
 
     <ul>
       <p>แบบบันทึกข้อมูล</p>
-      <li><a href="#"><img src="/image/calendar-date-fill.svg" alt="">ปฎิทินการใช้รถ</a></li>
-      <li><a href="#"><img src="/image/car-front-fill.svg" alt="">ขออนุญาตใช้รถส่วนกลาง</a></li>
-      <li><a href="#"><img src="/image/check-circle-fill.svg" alt="">ติดตามสถานะ</a></li>
-      <li><a href="#"><img src="/image/telephone-fill.svg" alt="">ติดต่อเรา</a></li>
+      <li><a href="#"><img src="../image/calendar-date-fill.svg" alt="">ปฎิทินการใช้รถ</a></li>
+      <li><a href=""><img src="../image/car-front-fill.svg" alt="">ขออนุญาตใช้รถส่วนกลาง</a></li>
+      <li><a href="#"><img src="../image/check-circle-fill.svg" alt="">ติดตามสถานะ</a></li>
+      <li><a href="#"><img src="../image/telephone-fill.svg" alt="">ติดต่อเรา</a></li>
     </ul>
   </aside>
   <script>
