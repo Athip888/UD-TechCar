@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <script src="../js/bootstrap.min.js"></script>
 </head>
 <body>
     <style>
@@ -147,7 +149,8 @@
       <li><a href="#"><img src="../image/calendar-date-fill.svg" alt="">ปฎิทินการใช้รถ</a></li>
       <li><a href=""><img src="../image/car-front-fill.svg" alt="">ขออนุญาตใช้รถส่วนกลาง</a></li>
       <li><a href="#"><img src="../image/check-circle-fill.svg" alt="">ติดตามสถานะ</a></li>
-      <li><a href="#"><img src="../image/telephone-fill.svg" alt="">ติดต่อเรา</a></li>
+      <li><a href="Contact.php"><img src="../image/telephone-fill.svg" alt="">ติดต่อเรา</a></li>
+      <li><a href="login.php"><img src="../image/door-open-fill.svg" alt="">เข้าสู่ระบบ</a></li>
     </ul>
   </aside>
   <script>
