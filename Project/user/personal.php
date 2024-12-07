@@ -1,12 +1,16 @@
 <?php
-if (isset($_GET['status']) && $_GET['status'] == 1) {
-    echo '<script>alert("อัพโหลดไฟล์ของคุณก่อน!");</script>';
-} elseif (isset($_GET['status']) && $_GET['status'] == 2) {
-    echo '<script>alert("โปรดอัพโหลดไฟล์ เช่น jpeg,png");</script>';
-} elseif (isset($_GET['status']) && $_GET['status'] == 3) {
-    echo '<script>alert("แก้ไขข้อมูลเสร็จสิ้น");</script>';
+if (isset($_GET['status'])) {
+    if ($_GET['status'] == 1) {
+        echo '<script>alert("โปรดอัพโหลดไฟล์ เช่น jpeg,png");</script>';
+    } elseif ($_GET['status'] == 2) {
+        echo '<script>alert("แก้ไขข้อมูลเสร็จสิ้น");</script>';
+    }
+
+    // รีไดเรกต์กลับไปที่ personal.php โดยไม่รวมพารามิเตอร์ 'status'
+    echo '<script>window.location.href = "personal.php";</script>';
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -74,7 +78,7 @@ if (isset($_GET['status']) && $_GET['status'] == 1) {
             <div class="col-md-12">
                 <div class="form-container">
                     <h3 class="text-center mb-4">แก้ไขข้อมูลส่วนตัว</h3>
-                    <form action="personal_pro" method="post">
+                    <form action="personal_pro.php" method="post" enctype="multipart/form-data">
                         <div class="form-row">
 
                             <div class="form-column">
@@ -83,24 +87,24 @@ if (isset($_GET['status']) && $_GET['status'] == 1) {
 
                                 <div class="mb-3">
                                     <label for="fullName" class="form-label">ชื่อ-นามสกุล</label>
-                                    <input type="text" class="form-control" id="fullName" placeholder="">
+                                    <input type="text" class="form-control" id="fullName" value="<?php echo $_SESSION['fullname']; ?>" name="fullname">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="phone" class="form-label">แผนก</label>
-                                    <input type="tel" class="form-control" id="phone" placeholder="">
+                                    <input type="tel" class="form-control" id="phone" value="<?php echo $_SESSION['department']; ?>" name="department">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="position" class="form-label">ตำแหน่ง</label>
-                                    <input type="pos" class="form-control" id="position" placeholder="">
+                                    <input type="pos" class="form-control" id="position" value="<?php echo $_SESSION['position']; ?>" name="position">
                                 </div>
 
-                                <div class="mb-3">
+                               <!-- <div class="mb-3">
                                     <label for="user-id" class="form-label">รหัส</label>
                                     <input type="user-id" class="form-control" id="user-id" placeholder="">
                                 </div>
-
+                                    -->
                             </div>
 
 
@@ -110,12 +114,12 @@ if (isset($_GET['status']) && $_GET['status'] == 1) {
                                     <div class="profile-img-container  ">
                                         <div class="d-flex "><img src="<?php echo $image_path; ?>" alt="Profile Image" id="profileImage"></div>
                                     </div>
-                                    <input type="file" class="form-control" id="profileImageInput" onchange="previewImage()">
+                                    <input type="file" class="form-control" id="profileImageInput" name="file" onchange="previewImage()">
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3" style="display: flex; justify-content: center;">
-                            <button type="submit" class="btn btn-primary w-30">บันทึกข้อมูล</button>
+                            <button type="submit" class="btn btn-primary w-30">บันทึกการแก้ไขข้อมูล</button>
                         </div>
 
                     </form>
