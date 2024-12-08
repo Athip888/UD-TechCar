@@ -47,7 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
     if (!in_array($fileType, ['image/jpeg', 'image/png', 'image/gif'])) {
         // ถ้าไม่ใช่ไฟล์ภาพ ส่งกลับไปที่หน้า personal
         header("Location: personal.php?status=2");  // status=2 แสดงว่าไฟล์ไม่ใช่ภาพ
-        exit();
     }
 
     // รับที่อยู่ไฟล์ชั่วคราว
@@ -65,17 +64,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
         }
     }
 
+    $sql = "UPDATE users 
+        SET profile_picture = '$file_name'
+        WHERE user_id = '$user_id'";
+    if (mysqli_query($connect, $sql)) {
+        // Redirect with success status
+        header('Location: personal.php?status=2');
+        $_SESSION['profile_picture'] = $file_name;
+    } 
+
     //ย้ายไฟล์ไปยังโฟลเดอร์ที่ต้องการ
     if (move_uploaded_file($tempPath, $go_to_folder)) {
-        header("Location: personal.php?status=3");
-        exit();
+        header("Location: personal.php?status=2");
     } else {
         echo "เกิดข้อผิดพลาดในการอัปโหลดไฟล์.";
-        exit();
     }
-} else {
-    header("Location: personal.php?status=1");
-    exit();
+
 }
 exit();
 mysqli_close($connect); // ปิดการเชื่อมต่อฐานข้อมูล
