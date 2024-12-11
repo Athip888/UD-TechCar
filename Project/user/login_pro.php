@@ -1,5 +1,5 @@
 <?php
-session_start();
+/*session_start();
 require('../config/dbconnect.php');
 
 // รับข้อมูลจากฟอร์ม
@@ -12,10 +12,10 @@ $password = htmlspecialchars(mysqli_real_escape_string($connect, $password));
 
 /* ตรวจสอบidว่ามีในระบบไหม
 ส่งคำสั่งไปฐานข้อมูลแล้วเก็บค่าใน$query_check_user_id*/
-$check_user_id = "SELECT * FROM users WHERE user_id='$user_id'";
+/*$check_user_id = "SELECT * FROM users WHERE user_id='$user_id'";
 $query_check_user_id = mysqli_query($connect, $check_user_id);
 /* ใช้คำสั่งดูแถวใน$query_check_user_id */
-if (mysqli_num_rows($query_check_user_id) == 1) {
+/*if (mysqli_num_rows($query_check_user_id) == 1) {
     //ดึงผลลัพธ์ที่ได้มาเก็บในuser userจะกลายเป็นarray
     $user = mysqli_fetch_assoc($query_check_user_id);
     $hashed_password = $user['password']; 

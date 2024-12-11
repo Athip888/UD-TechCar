@@ -17,8 +17,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>เพิ่มข้อมูลผู้ใช้</title>
-    <link rel="stylesheet" href="adduser.css">
+    
     <script src='alertadduser.js'></script>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <script src="../js/bootstrap.min.js"></script>
     
 </head>
 
@@ -49,6 +51,83 @@
             <button type="submit">บันทึก</button>
         </form>
     </div>
+    <style>
+        body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #e6f2ff; /* สีฟ้าอ่อน */
+    font-family: Arial, sans-serif;
+}
+
+/* Form container styling */
+.form-container {
+    background-color: #f7f7f7; /* สีเทาอ่อน */
+    padding: 25px;
+    width: 320px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h1 {
+    font-size: 24px;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+input[type="text"], input[type="password"], select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50; /* สีเขียวอ่อน */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049; /* สีเขียวเข้มขึ้น */
+}
+
+button.backred {
+    width: 100%;
+    padding: 10px;
+    background-color: #f44336 !important; /* สีแดง */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+
+    </style>
+
+    <script>
+
+    </script>
 </body>
 
 </html>

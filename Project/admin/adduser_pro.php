@@ -26,7 +26,7 @@ mysqli_query จะเรียกใช้คำสั่งsql
 ใช้mysqli_num_rows จะได้เลขตามแถวที่ได้จากคำสั่งsql
 ถ้าน้อยยกว่า0 ก็คือไม่มีข้อมูลในจะเพิ่มข้อมูลเข้าไปในระบบ
 ถ้ามากกว่ากว่า0 แสดงว่ามีข้อมูลแล้ว จะเด้งไปหน้าเพิ่มuser*/
-$check_user_id = "SELECT user_id FROM users WHERE user_id='$user_id'";
+/*$check_user_id = "SELECT user_id FROM users WHERE user_id='$user_id'";
 $query_check_user_id = mysqli_query($connect, $check_user_id);
 if (mysqli_num_rows($query_check_user_id) > 0) {
     //$_SESSION['alertuser'] = 0;
@@ -51,4 +51,4 @@ if (mysqli_num_rows($query_check_user_id) > 0) {
 }
 
 // ปิดการเชื่อมต่อฐานข้อมูล
-mysqli_close($connect);
+mysqli_close($connect);*/

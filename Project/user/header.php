@@ -1,8 +1,8 @@
 <?php
-session_start();
+/*session_start();
 require('../config/dbconnect.php');
 $profile_picture = $_SESSION['profile_picture'];
-$image_path = "../user_image/" . $profile_picture;
+$image_path = "../user_image/" . $profile_picture;*/
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -191,7 +191,7 @@ $image_path = "../user_image/" . $profile_picture;
       <p>แบบบันทึกข้อมูล</p>
       <li><a href="#"><img src="../image/calendar-date-fill.svg" alt="">ปฎิทินการใช้รถ</a></li>
       <li><a href="Form.php"><img src="../image/car-front-fill.svg" alt="">ขออนุญาตใช้รถส่วนกลาง</a></li>
-      <li><a href="#"><img src="../image/check-circle-fill.svg" alt="">ติดตามสถานะ</a></li>
+      <li><a href="status.php"><img src="../image/check-circle-fill.svg" alt="">ติดตามสถานะ</a></li>
       <li><a href="Contact.php"><img src="../image/telephone-fill.svg" alt="">ติดต่อเรา</a></li>
       <li><a href="personal.php"><img src="../image/gear-fill.svg" alt="">แก้ไขข้อมูลส่วนตัว</a></li>
       <li><a href="../logout.php"><img src="../image/door-open-fill.svg" alt="">ออกจากระบบ</a></li>

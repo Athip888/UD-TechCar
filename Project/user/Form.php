@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sidebar Toggle with Close Button</title>
+  <title>หน้าฟอร์มจองใช้งานรถยนต์</title>
   <link rel="stylesheet" href="home.css">
   <script src="home.js"></script>
   <link rel="stylesheet" href="../css/bootstrap.css">
@@ -139,42 +139,47 @@
 
           <div class="col-12 col-sm-12 col-md-6 col-lg-6  mt-3">
           <label for="position" class="form-label">ตำแหน่ง</label>
-          <input type="text" id="position" class="form-control" placeholder="ตำแหน่ง">
+          <input type="text" id="position" class="form-control" placeholder="ตำแหน่ง" require>
           </div>
 
           <div class="col-12  mt-2">
           <label for="destination" class="form-label">ขออนุญาติใช้ (ไปที่ไหน)</label>
-          <input type="text" name="destination" id="destination" class="form-control" placeholder="ขออนุญาติใช้">
+          <input type="text" name="destination" id="destination" class="form-control" placeholder="ขออนุญาติใช้"require>
           </div>
 
           <div class="col-12 mt-2">
           <label for="purpose" class="form-label">เพื่อ</label>
-          <input type="text" name="purpose" id="purpose" class="form-control" placeholder="เพื่อ">
+          <input type="text" name="purpose" id="purpose" class="form-control" placeholder="เพื่อ"require>
           </div>
 
           <div class="col-12 col-sm-12 col-md-6 col-lg-6 mt-2">
           <label for="departure_date" class="form-label">ออกเดินทางวันที่</label>
-          <input type="date" name="departure_date" id="departure_date" class="form-control">
+          <input type="date" name="departure_date" id="departure_date" class="form-control"require>
           </div>
 
           <div class="col-12 col-sm-12 col-md-6 col-lg-6 mt-2">
           <label for="departure_time" class="form-label">ออกเดินทางเวลา</label>
-          <input type="time" name="departure_time" id="departure_time" class="form-control">
+          <input type="time" name="departure_time" id="departure_time" class="form-control"require>
           </div>
 
           <div class="col-12 col-sm-12 col-md-6 col-lg-6 mt-2">
           <label for="return_date" class="form-label">กลับจากเดินทางวันที่</label>
-          <input type="date" name="return_date" id="return_date" class="form-control">
+          <input type="date" name="return_date" id="return_date" class="form-control"require>
           </div>
 
           <div class="col-12 col-sm-12 col-md-6 col-lg-6 mt-2">
           <label for="return_time" class="form-label">กลับจากเดินทางเวลา</label>
-          <input type="time" name="return_time" id="return_time" class="form-control"">
+          <input type="time" name="return_time" id="return_time" class="form-control"require>
           </div>
 
-          <div class="col-6 mt-2">
-          <label for="passenger_count" class="form-label">มีคนนั่ง[คน]</label>
-          <input type="text" name="passenger_count" id="passenger_count" class="form-control" placeholder="มีคนนั่ง">
+          <div class="col-12 col-sm-12 col-md-6 col-lg-6 mt-3">
+          <label for="people" class="form-label">ผู้คน</label>
+          <input type="number" id="fullname" class="form-control" placeholder="กี่คน"require>
+          </div>
+
+          <div class="col-12 col-sm-12 col-md-6 col-lg-6  mt-3">
+          <label for="Budget" class="form-label">งบประมาณ</label>
+          <input type="text" id="position" class="form-control" placeholder="งบประมาณ"require>
           </div>
           <div class="d-flex justify-content-center mt-4"><button type="button" class="btn btn-success ">บันทึก</button></div>
         </div>
