@@ -71,9 +71,14 @@ if (isset($_GET['status'])) {
         .form-column {
             width: 48%;
         }
+
+        .form-container{
+            background-color: #ffff;
+        }
+
     </style>
 
-    <div class="container my-5">
+    <div class="container my-5 ">
         <div class="row">
             <div class="col-md-12">
                 <div class="form-container">
@@ -118,8 +123,8 @@ if (isset($_GET['status'])) {
                                 </div>
                             </div>
                         </div>
-                        <div class="mb-3" style="display: flex; justify-content: center;">
-                            <button type="submit" class="btn btn-primary w-30">บันทึกการแก้ไขข้อมูล</button>
+                        <div class="mb-3 mt-3" style="display: flex; justify-content: center;">
+                            <button type="submit" class="btn btn-success w-30">บันทึกการแก้ไขข้อมูล</button>
                         </div>
 
                     </form>

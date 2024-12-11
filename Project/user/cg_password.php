@@ -25,6 +25,8 @@
         display: flex;
         justify-content: center;
     }
+
+   
 </style>
 
 <body>
@@ -36,28 +38,29 @@
         <div class="row justify-content-center">
             <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
                 <div class="form-container">
-                    <h2>ติดต่อเรา</h2>
+                    <h2>เปลี่ยนรหัสผ่าน</h2>
                     <form action="">
+
                         <div class="mb-3 mt-3">
-                            <label for="email">Email:</label>
-                            <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+                            <label for="old password">รหัสผ่านเก่า:</label>
+                            <input type="password" class="form-control" id="old password" placeholder="Enter Old Password" name="old password">
                         </div>
+
                         <div class="mb-3">
-                            <label for="pwd">Password:</label>
-                            <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
+                            <label for="New password">รหัสผ่านใหม่:</label>
+                            <input type="password" class="form-control" id="New password" placeholder="Enter New password" name="New password">
                         </div>
-                        <div class="form-check mb-3">
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="remember"> Remember me
-                            </label>
+
+                        <div class="mb-3">
+                            <label for="New password">ยืนยันรหัสผ่าน:</label>
+                            <input type="password" class="form-control" id="New password" placeholder="Enter New password" name="New password">
                         </div>
-                        <div class="form-check mb-3">
-                            <label for="comment">Comments:</label>
-                            <textarea class="form-control" rows="5" id="comment" name="text"></textarea>
-                        </div>
+
+                        
                         <div style="display: flex; justify-content: center; align-items: center; ">
                      <button type="submit" class="btn btn-success ">ยืนยัน</button>
                         </div>
+                       
                     </form>
                 </div>
             </div>
