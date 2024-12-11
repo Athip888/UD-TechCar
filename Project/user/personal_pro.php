@@ -35,7 +35,7 @@ if (mysqli_query($connect, $sql)) {
     echo "เกิดข้อผิดพลาดในการแก้ไขข้อมูล: " . mysqli_error($connect);
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_FILES['file']['error'] == 0) {
     // รับข้อมูลไฟล์
     $name = $_SESSION['user_id'];
     $file = $_FILES['file'];
@@ -46,7 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
     $fileType = $file['type'];
     if (!in_array($fileType, ['image/jpeg', 'image/png', 'image/gif'])) {
         // ถ้าไม่ใช่ไฟล์ภาพ ส่งกลับไปที่หน้า personal
-        header("Location: personal.php?status=2");  // status=2 แสดงว่าไฟล์ไม่ใช่ภาพ
+        header("Location: personal.php?status=1");  // status=1 แสดงว่าไฟล์ไม่ใช่ภาพ
+        exit();
     }
 
     // รับที่อยู่ไฟล์ชั่วคราว

@@ -1,9 +1,14 @@
 <?php
-/*session_start();
+session_start();
 require('../config/dbconnect.php');
+
 $profile_picture = $_SESSION['profile_picture'];
-$image_path = "../user_image/" . $profile_picture;*/
+$image_path = "../user_image/" . $profile_picture;
+
+$signature_picture = $_SESSION['signature'];
+$signature_path = "../user_signature/" . $signature_picture;
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
