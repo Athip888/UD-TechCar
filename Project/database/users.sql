@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 02, 2024 at 04:55 PM
+-- Generation Time: Dec 11, 2024 at 06:23 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -35,7 +35,7 @@ CREATE TABLE `users` (
   `department` varchar(255) NOT NULL,
   `role` enum('admin','user','') NOT NULL,
   `profile_picture` varchar(255) DEFAULT 'default_images_account.jpg',
-  `signature` varchar(255) DEFAULT NULL
+  `signature` varchar(255) DEFAULT 'default_images_signature.png'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -43,7 +43,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `fullname`, `password`, `position`, `department`, `role`, `profile_picture`, `signature`) VALUES
-('1234', '1234', '$2y$10$XAZ3ha55SMkgpbdEHMtGSOnZuyHUCZJ7mS/5Xv331/ZqU2u8WGQ2q', 'นักศึกษา', 'เทคโนโลยีสารสนเทศ', 'user', 'default_images_account.jpg', NULL);
+('1234', 'นายศิริณรงค์ เรืองศักดิ์', '$2y$10$XAZ3ha55SMkgpbdEHMtGSOnZuyHUCZJ7mS/5Xv331/ZqU2u8WGQ2q', 'นักศึกษา', 'เทคโนโลยีสารสนเทศ', 'user', '1234.gif', '1234.'),
+('66309010025', 'นายศิริณรงค์ เรืองศักดิ์', '$2y$10$.666nftJpZrx8JwdO9CmkOeeB/2sQL5ZVdDUPp7rruWHjSF0MWrJW', 'นักศึกษา', 'เทคโนโลยีสารสนเทศ', 'user', 'default_images_account.jpg', 'default_images_signature.png');
 
 --
 -- Indexes for dumped tables
