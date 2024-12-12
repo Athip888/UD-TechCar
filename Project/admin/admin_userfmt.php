@@ -10,7 +10,7 @@
 <body>
 
 <?php
-require("../user/header.php");
+require("");
 ?>
 <style>
         body {

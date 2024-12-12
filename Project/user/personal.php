@@ -1,7 +1,7 @@
 <?php
 if (isset($_GET['status'])) {
     if ($_GET['status'] == 1) {
-        echo '<script>alert("โปรดอัพโหลดโปรไฟล์เป็นไฟล์ เช่น jpeg,png");</script>';
+        echo '<script>alert("โปรดอัพโหลดโปรไฟล์เป็นไฟล์ เช่น jpg,jpeg,png");</script>';
     } elseif ($_GET['status'] == 2) {
         echo '<script>alert("แก้ไขข้อมูลเสร็จสิ้น");</script>';
     }elseif ($_GET['status'] == 3) {

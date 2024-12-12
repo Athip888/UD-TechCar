@@ -28,6 +28,7 @@ if (mysqli_num_rows($query_check_user_id) == 1) {
             $_SESSION['position'] = $user['position'];
             $_SESSION['department'] = $user['department'];
             $_SESSION['profile_picture'] = $user['profile_picture'];
+            $_SESSION['signature'] = $user['signature'];
             die(header('Location: ../admin/adduser.php'));
         }else {
             $_SESSION['user_id'] = $user['user_id'];
@@ -36,6 +37,7 @@ if (mysqli_num_rows($query_check_user_id) == 1) {
             $_SESSION['position'] = $user['position'];
             $_SESSION['department'] = $user['department'];
             $_SESSION['profile_picture'] = $user['profile_picture'];
+            $_SESSION['signature'] = $user['signature'];
             die(header('Location: Form.php'));
         }
     }else {
