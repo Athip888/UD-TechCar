@@ -5,8 +5,8 @@ require('../config/dbconnect.php');
 $profile_picture = $_SESSION['profile_picture'];
 $image_path = "../user_image/" . $profile_picture;
 
-$signature_picture = $_SESSION['signature'];
-$signature_path = "../user_signature/" . $signature_picture;
+//$signature_picture = $_SESSION['signature'];
+//$signature_path = "../user_signature/" . $signature_picture;
 ?>
 
 <!DOCTYPE html>
@@ -199,6 +199,7 @@ $signature_path = "../user_signature/" . $signature_picture;
       <li><a href="status.php"><img src="../image/check-circle-fill.svg" alt="">ติดตามสถานะ</a></li>
       <li><a href="Contact.php"><img src="../image/telephone-fill.svg" alt="">ติดต่อเรา</a></li>
       <li><a href="personal.php"><img src="../image/gear-fill.svg" alt="">แก้ไขข้อมูลส่วนตัว</a></li>
+      <li><a href="cg_password.php"><img src="../image/key-fill.svg" alt="">เปลี่ยนรหัสผ่าน</a></li>
       <li><a href="../logout.php"><img src="../image/door-open-fill.svg" alt="">ออกจากระบบ</a></li>
     </ul>
   </aside>
