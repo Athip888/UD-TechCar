@@ -87,14 +87,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_FILES['file1']['error'] == 0) {
     // รับข้อมูลไฟล์
     $name = $_SESSION['user_id'];
     $file = $_FILES['file1'];
-    $file_name1 = $name . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
+    $file_name1 = $name . '.' . pathinfo($file['name'], PATHINFO_EXTENSION); //แก้ชิ่อไฟล์ตาม$name
     //print_r($file_name); ปริ้นชื่อไฟล์
 
     //ตรวจสอบประเภทไฟล์
     $fileType = $file['type'];
-    if (!in_array($fileType, ['image/jpeg', 'image/png', 'image/gif'])) {
+    if (!in_array($fileType, ['image/png'])) { //ถ้าไม่ใช่png จะกลับไปหน้าข้อมูลส่วนตัว
         // ถ้าไม่ใช่ไฟล์ภาพ ส่งกลับไปที่หน้า personal
-        header("Location: personal.php?status=1");  // status=1 แสดงว่าไฟล์ไม่ใช่ภาพ
+        header("Location: personal.php?status=3");  // status=3 แสดงว่าไฟล์ไม่ใช่ภาพ
         exit();
     }
 
