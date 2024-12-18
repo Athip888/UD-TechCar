@@ -1,9 +1,6 @@
 <?php
 session_start();
 require('../config/dbconnect.php');
-
-$user_id = $_SESSION['user_id'];
-
 if (!isset($_SESSION['user_id'])) {
     header('Location: index.php');
     exit();
@@ -88,14 +85,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_FILES['file1']['error'] == 0) {
     $name = $_SESSION['user_id'];
     $file = $_FILES['file1'];
     $file_name1 = $name . '.' . pathinfo($file['name'], PATHINFO_EXTENSION); //แก้ชิ่อไฟล์ตาม$name
-    //print_r($file_name); ปริ้นชื่อไฟล์
 
     //ตรวจสอบประเภทไฟล์
     $fileType = $file['type'];
     if (!in_array($fileType, ['image/png'])) { //ถ้าไม่ใช่png จะกลับไปหน้าข้อมูลส่วนตัว
         // ถ้าไม่ใช่ไฟล์ภาพ ส่งกลับไปที่หน้า personal
         header("Location: personal.php?status=3");  // status=3 แสดงว่าไฟล์ไม่ใช่ภาพ
-        exit();
+        //exit();
     }
 
     // รับที่อยู่ไฟล์ชั่วคราว
@@ -105,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_FILES['file1']['error'] == 0) {
     $go_to_folder1 = '../user_signature/' . $file_name1;
 
     //ตรวจสอบแล้วลบไฟล์
-    $type_img = [".jpg", ".jpeg", ".png", ".gif"];
+    $type_img = [".png"];
     for ($i = 0; $i < count($type_img); $i++) {
         $delete_oldpic = '../user_signature/' . $name . $type_img[$i];
         if (file_exists($delete_oldpic)) {
@@ -113,21 +109,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_FILES['file1']['error'] == 0) {
         }
     }
 
-    $sql = "UPDATE users 
-        SET signature = '$file_name1'
-        WHERE user_id = '$user_id'";
-    if (mysqli_query($connect, $sql)) {
-        // Redirect with success status
-        $_SESSION['signature'] = $file_name1;
-        header("Location: personal.php?status=2");
-    } 
-    //ย้ายไฟล์ไปยังโฟลเดอร์ที่ต้องการ
     if (move_uploaded_file($tempPath, $go_to_folder1)) {
+        // หากย้ายไฟล์สำเร็จ ค่อยทำการอัปเดตฐานข้อมูล
+        $sql = "UPDATE users 
+                SET signature = '$file_name1'
+                WHERE user_id = '$user_id'";
+    
+        if (mysqli_query($connect, $sql)) {
+            $_SESSION['signature'] = $file_name1;
+            header("Location: personal.php?status=2");
+            //exit();
+        } else {
+            echo "เกิดข้อผิดพลาดในการอัปเดตข้อมูล: " . mysqli_error($connect);
+        }
     } else {
         echo "เกิดข้อผิดพลาดในการอัปโหลดไฟล์.";
-    }
-
-    
+    }    
 }
-exit();
 mysqli_close($connect); // ปิดการเชื่อมต่อฐานข้อมูล
+exit();

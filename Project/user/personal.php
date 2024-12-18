@@ -1,4 +1,7 @@
 <?php
+header("Cache-Control: no-cache, no-store, must-revalidate");
+header("Pragma: no-cache");
+header("Expires: 0");
 if (isset($_GET['status'])) {
     if ($_GET['status'] == 1) {
         echo '<script>alert("โปรดอัพโหลดโปรไฟล์เป็นไฟล์ เช่น jpg,jpeg,png");</script>';
@@ -106,7 +109,7 @@ if (isset($_GET['status'])) {
                     <div class="form-section text-center me-3">
                         <h4 class="mb-3">โปรไฟล์</h4>
                         <div class="profile-img-container mb-3">
-                            <img src="<?php echo $image_path; ?>" alt="Profile Image" id="profileImage">
+                            <img src="<?php echo $image_path . '?v=' . time(); ?>" alt="Profile Image" id="profileImage">
                         </div>
                         <input type="file" class="form-control" id="profileImageInput" name="file" onchange="previewImage('profileImage', 'profileImageInput')">
                     </div>
@@ -115,7 +118,7 @@ if (isset($_GET['status'])) {
                     <div class="form-section text-center">
                         <h4 class="mb-3">ลายเซ็น</h4>
                         <div class="signature-img-container mb-3">
-                            <img src="<?php echo $signature_path; ?>" alt="Signature Image" id="signatureImage">
+                            <img src="<?php echo $signature_path . '?v=' . time(); ?>" alt="Signature Image" id="signatureImage">
                         </div>
                         <input type="file" class="form-control" id="signatureImageInput" name="file1" onchange="previewImage('signatureImage', 'signatureImageInput')">
                     </div>
