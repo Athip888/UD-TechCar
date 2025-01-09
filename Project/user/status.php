@@ -1,5 +1,15 @@
 <?php
 require('header.php');
+if (isset($_GET['status'])) {
+    if ($_GET['status'] == 1) {
+        echo '<script>alert("คำร้องของคุณถูกยกเลิกเรียบร้อยแล้ว.");</script>';
+    } elseif ($_GET['status'] == 2) {
+        echo '<script>alert("คำร้องของคุณได้รับการอนุมัติแล้ว หากต้องการยกเลิกคำร้อง กรุณาติดต่อผู้ดูแลระบบ.");</script>';
+    } elseif ($_GET['status'] == 3) {
+        echo '<script>alert("คำร้องของคุณถูกปฏิเสธแล้ว ไม่สามารถยกเลิกได้");</script>';
+    }
+    echo '<script>window.location.href = "status.php";</script>'; // รีไดเรกต์กลับไปที่ personal.php โดยไม่รวมพารามิเตอร์ 'status'
+}
 $search_query = isset($_GET['status_search']) ? $_GET['status_search'] : '';
 $user_id = $_SESSION['user_id'];
 $sql = "SELECT requests.request_id, 
