@@ -1,17 +1,7 @@
 <?php
-if (isset($_GET['status'])) {
-    if ($_GET['status'] == 1) {
-        echo '<script>alert("คำร้องของคุณถูกยกเลิกเรียบร้อยแล้ว.");</script>';
-    } elseif ($_GET['status'] == 2) {
-        echo '<script>alert("คำร้องของคุณได้รับการอนุมัติแล้ว หากต้องการยกเลิกคำร้อง กรุณาติดต่อผู้ดูแลระบบ.");</script>';
-    } elseif ($_GET['status'] == 3) {
-         echo '<script>alert("คำร้องของคุณถูกปฏิเสธแล้ว ไม่สามารถยกเลิกได้");</script>';
-     }
-    echo '<script>window.location.href = "status.php";</script>'; // รีไดเรกต์กลับไปที่ personal.php โดยไม่รวมพารามิเตอร์ 'status'
-}
 require('header.php');
+$search_query = isset($_GET['status_search']) ? $_GET['status_search'] : '';
 $user_id = $_SESSION['user_id'];
-// คำสั่ง SQL ที่รวมตาราง requests กับ users เพื่อดึง fullname
 $sql = "SELECT requests.request_id, 
                 requests.user_id,
                 users.fullname,
@@ -25,9 +15,13 @@ $sql = "SELECT requests.request_id,
                 requests.status
         FROM requests 
         JOIN users ON requests.user_id = users.user_id
-        WHERE requests.status = 'รออนุมัติ' OR requests.status = 'อนุมัติ' OR requests.status = 'ปฏิเสธ'
+        WHERE (requests.status = 'รออนุมัติ' OR requests.status = 'อนุมัติ' OR requests.status = 'ปฏิเสธ')
+        AND (requests.request_id LIKE '%$search_query%' 
+        OR users.fullname LIKE '%$search_query%'
+        OR users.position LIKE '%$search_query%'
+        OR requests.destination LIKE '%$search_query%' 
+        OR requests.province LIKE '%$search_query%')
         ORDER BY requests.request_id DESC;";
-
 $result = mysqli_query($connect, $sql);
 ?>
 <!DOCTYPE html>
@@ -38,27 +32,54 @@ $result = mysqli_query($connect, $sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <title>ผลลัพธ์การค้นหา</title>
+    <style>
+  .sidebar {
+  width: 250px;
+  position: fixed;
+  left: -250px;
+  top: 0;
+  height: 100%;
+  transition: left 0.3s ease;
+  background-color: #f8f9fa; /* สีพื้นหลังของเมนู */
+  z-index: 2; /* ให้เมนูอยู่ด้านบน */
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.main-content {
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
+}
+
+.main-content.shift {
+  margin-left: 250px; /* ขยับเนื้อหาไปทางขวาเมื่อเมนูเปิด */
+}
+
+#searchQuery {
+  position: relative;
+  z-index: 1; /* ช่องค้นหาเริ่มต้นอยู่ด้านบน */
+}
+
+.sidebar.open + .main-content #searchQuery {
+  z-index: -1; /* ช่องค้นหาถูกทับเมื่อเมนูเปิด */
+}
+
+</style>
 </head>
 
 <body>
     <div class="container py-5">
         <div class="form-container shadow-sm p-4 rounded bg-light">
             <h3 class="text-center mb-4">รายการ</h3>
-            <form id="searchForm" action="status_search.php" method="GET">
+            <form id="searchForm" action="status.php" method="GET">
                 <div class="row g-3 align-items-center">
-                    <div class="col-md-4">
-                        <label for="startDate" class="form-label">วันที่เริ่มต้น</label>
-                        <input type="date" class="form-control" id="startDate" name="startDate" lang="th">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="endDate" class="form-label">วันที่สิ้นสุด</label>
-                        <input type="date" class="form-control" id="endDate" name="endDate" lang="th">
-                    </div>
-                    <div class="col-md-4">
+                    <div class="col-12"> <!-- Use full-width column -->
                         <label for="searchQuery" class="form-label">ค้นหา</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="searchQuery" name="searchQuery" placeholder="ป้อนคำค้นหา">
-                            <button type="button" class="btn btn-primary" id="searchBtn">ค้นหา</button>
+                            <input type="text" class="form-control" id="searchQuery" name="status_search" placeholder="ป้อนคำค้นหา">
+                            <button type="submit" class="btn btn-primary" id="searchBtn">ค้นหา</button>
                         </div>
                     </div>
                 </div>
