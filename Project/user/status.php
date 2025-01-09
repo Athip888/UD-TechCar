@@ -44,7 +44,7 @@ $result = mysqli_query($connect, $sql);
     <div class="container py-5">
         <div class="form-container shadow-sm p-4 rounded bg-light">
             <h3 class="text-center mb-4">รายการ</h3>
-            <form id="searchForm">
+            <form id="searchForm" action="status_search.php" method="GET">
                 <div class="row g-3 align-items-center">
                     <div class="col-md-4">
                         <label for="startDate" class="form-label">วันที่เริ่มต้น</label>
