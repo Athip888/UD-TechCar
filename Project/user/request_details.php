@@ -30,6 +30,22 @@ if (!$request) {
     <title>Request Details</title>
     <link rel="stylesheet" href="../css/bootstrap.css">
     <script src="../js/bootstrap.min.js"></script>
+    <style>
+        /* การตั้งค่า container */
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border-radius: 8px;
+            text-align: left; /* ทำให้เนื้อหาภายในเป็นตัวอักษรจัดซ้าย */
+        }
+
+        .btn-secondary {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -44,7 +60,8 @@ if (!$request) {
     <p><strong>Return Time:</strong> <?php echo htmlspecialchars($request['return_time']); ?></p>
     <p><strong>Passengers:</strong> <?php echo htmlspecialchars($request['passengers']); ?></p>
     <p><strong>User ID:</strong> <?php echo htmlspecialchars($request['user_id']); ?></p>
-    <a href="javascript:history.back()" class="btn btn-secondary">Back to Calendar</a>
+    <a href="javascript:history.back()" class="btn btn-secondary">กลับ</a>
+    <a href="javascript:history.back()" class="btn btn-secondary">พิมพ์</a>
 </div>
 </body>
 </html>
