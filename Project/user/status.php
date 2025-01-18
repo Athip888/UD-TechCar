@@ -148,11 +148,9 @@ $result = mysqli_query($connect, $sql);
             echo "<td>" . $row['return_date'] . "</td>";
             echo "<td>" . $row['return_time'] . "</td>";
             echo "<td>" . $row['status'] . "</td>";
-            echo "<td><a href='#' class='btn btn-danger' onclick='return confirmCancel(\"" . $row['request_id'] . "\")'>ยกเลิก</a></td>";
-           
+            echo "<td><a href='request_details.php?request_id=" . $row['request_id'] . "' class='btn btn-info'>ดูรายละเอียด</a></td>";
             if ($user_id == $row['user_id']) {
-                echo "<td><a href='#' class='btn btn-info' onclick='showDetails(\"" . $row['request_id'] . "\")'>ดูรายละเอียด</a></td>"; // ส่วนมีปัญหา
-               
+                echo "<td><a href='#' class='btn btn-danger' onclick='return confirmCancel(\"" . $row['request_id'] . "\")'>ยกเลิก</a></td>";
             } else {
                 echo "<td></td>";
             }
