@@ -37,24 +37,28 @@
 <?php
 require("headadmin.php");
 
-// SQL สำหรับดึงข้อมูลพนักงานขับรถ
-$sql = "SELECT * FROM drivers";
+// ตรวจสอบว่ามีการส่งค่าการค้นหามาหรือไม่
+$search = isset($_POST['search']) ? mysqli_real_escape_string($connect, $_POST['search']) : '';
+
+// SQL สำหรับดึงข้อมูลพนักงานขับรถ (รวมการค้นหา driver_id, name และ phone_number)
+$sql = "SELECT * FROM drivers WHERE driver_id LIKE '%$search%' OR name LIKE '%$search%' OR phone_number LIKE '%$search%'";
 $result = mysqli_query($connect, $sql);
 ?>
 
 <div class="container my-4">
     <h2 class="mb-4">ข้อมูลพนักงานขับรถ</h2>
 
-    <div class="d-flex justify-content-between mb-3">
+    <form method="post" class="d-flex justify-content-between mb-3">
         <div class="input-box w-50">
-            <input type="text" class="form-control" placeholder="ค้นหา...">
-            <button class="btn btn-primary btn-lg-custom ">ค้นหา</button> <!-- ปรับขนาดตัวอักษรในปุ่มค้นหา -->
+            <input type="text" name="search" class="form-control" placeholder="ค้นหา (รหัส, ชื่อ, เบอร์โทร)..." value="<?php echo htmlspecialchars($search); ?>">
+            <button type="submit" class="btn btn-primary btn-lg-custom">ค้นหา</button>
         </div>
-        <button class="btn btn-success" onclick="window.location.href='add_driver.php';">
-            <i class="fas fa-plus"></i> เพิ่มพนักงานขับรถ
-        </button>
-    </div>
-    
+        <a href="add_driver.php" class="btn btn-success">
+    <i class="fas fa-plus"></i> เพิ่มพนักงานขับรถ
+</a>
+
+    </form>
+
     <table class="table table-bordered">
         <thead class="table-light">
             <tr>
@@ -77,8 +81,8 @@ $result = mysqli_query($connect, $sql);
                     echo "<td>" . htmlspecialchars($row['work_date']) . "</td>";
                     echo "<td>
                             <a href='edit_driver.php?driver_id=" . urlencode($row['driver_id']) . "' class='btn btn-warning btn-sm'>แก้ไข</a>
-                    <a href='delete_driver.php?driver_id=" . urlencode($row['driver_id']) . "' class='btn btn-danger btn-sm' onclick='return confirm(\"คุณต้องการลบ " . htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8') . " ใช่หรือไม่?\");'>ลบ</a>
-                  </td>";
+                            <a href='delete_driver.php?driver_id=" . urlencode($row['driver_id']) . "' class='btn btn-danger btn-sm' onclick='return confirm(\"คุณต้องการลบ " . htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8') . " ใช่หรือไม่?\");'>ลบ</a>
+                          </td>";
                     echo "</tr>";
                 }
             } else {
@@ -88,6 +92,7 @@ $result = mysqli_query($connect, $sql);
         </tbody>
     </table>
 </div>
+
 
 </body>
 </html>
