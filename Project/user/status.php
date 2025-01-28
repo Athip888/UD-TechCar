@@ -148,15 +148,17 @@ $result = mysqli_query($connect, $sql);
             echo "<td>" . $row['return_date'] . "</td>";
             echo "<td>" . $row['return_time'] . "</td>";
             echo "<td>" . $row['status'] . "</td>";
-            echo "<td>
-                        <a href='request_details.php?request_id={$row['request_id']}' class='btn btn-info'>
-                            ดูรายละเอียด
-                        </a>";
+
+            echo "<td>";
+            echo "<div class='d-flex gap-2'>";
+            echo "<a href='request_details.php?request_id={$row['request_id']}' class='btn btn-info btn-sm'>ดูรายละเอียด</a>";
+
             if ($user_id == $row['user_id']) {
-                echo "<a href='' class='btn btn-danger' onclick='return confirmCancel(\"" . $row['request_id'] . "\")'>ยกเลิก</a></td>";
-            } else {
-                echo "</td>";
+                echo "<a href='#' class='btn btn-danger btn-sm' onclick='return confirmCancel(\"" . $row['request_id'] . "\")'>ยกเลิก</a>";
             }
+
+            echo "</div>"; // ปิด div ของ d-flex
+            echo "</td>";
             echo "</tr>";
         }
     } else {
