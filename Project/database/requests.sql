@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 07, 2025 at 04:15 PM
+-- Generation Time: Jan 29, 2025 at 03:56 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -40,27 +40,17 @@ CREATE TABLE `requests` (
   `passengers` int(11) DEFAULT NULL,
   `request_date` datetime DEFAULT NULL,
   `status` enum('รออนุมัติ','อนุมัติ','ปฏิเสธ','ยกเลิก') DEFAULT 'รออนุมัติ',
-  `user_id` varchar(255) DEFAULT NULL
+  `user_id` varchar(255) DEFAULT NULL,
+  `driver_id` int(11) DEFAULT NULL,
+  `car_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `requests`
 --
 
-INSERT INTO `requests` (`request_id`, `destination`, `province`, `travel_type`, `purpose`, `departure_date`, `departure_time`, `return_date`, `return_time`, `passengers`, `request_date`, `status`, `user_id`) VALUES
-('UDTC20230101001', 'วิทยาลัยเทคนิคอุดรธานี', 'กระบี่', 'ต่างจังหวัด', 'ไปเรียน', '2025-01-01', '12:23:00', '2025-01-01', '14:23:00', 5, '2025-01-01 20:24:55', 'ปฏิเสธ', '1234'),
-('UDTC20240101001', 'วิทยาลัยเทคนิคอุดรธานี', 'กรุงเทพมหานคร', 'ต่างจังหวัด', 'ไปเรียน', '2025-01-01', '21:17:00', '2025-01-01', '13:17:00', 4, '2025-01-01 20:23:31', 'ปฏิเสธ', '1234'),
-('UDTC20240101002', 'วิทยาลัยเทคนิคอุดรธานี', 'กระบี่', 'ต่างจังหวัด', 'ไปเรียน', '2025-01-01', '12:23:00', '2025-01-01', '14:23:00', 5, '2025-01-01 20:23:49', 'อนุมัติ', '1234'),
-('UDTC20240101003', 'วิทยาลัยเทคนิคอุดรธานี', 'กระบี่', 'ต่างจังหวัด', 'ไปเรียน', '2025-01-01', '12:23:00', '2025-01-01', '14:23:00', 5, '2025-01-01 20:24:35', 'รออนุมัติ', '1234'),
-('UDTC20250101001', 'วิทยาลัยเทคนิคอุดรธานี', 'กรุงเทพมหานคร', 'ต่างจังหวัด', 'ไปเรียน', '2025-01-01', '19:36:00', '2025-01-01', '20:36:00', 3, '2025-01-01 19:38:20', 'รออนุมัติ', '1234'),
-('UDTC20250101002', 'วิทยาลัยเทคนิคอุดรธานี', 'กระบี่', 'ต่างจังหวัด', 'ไปเรียน', '2025-01-01', '21:17:00', '2025-01-01', '13:17:00', 4, '2025-01-01 20:20:53', 'รออนุมัติ', '1234'),
-('UDTC20250101003', 'วิทยาลัยเทคนิคอุดรธานี', 'กระบี่', 'ต่างจังหวัด', 'ไปเรียน', '2025-01-01', '21:17:00', '2025-01-01', '13:17:00', 4, '2025-01-01 20:20:58', 'รออนุมัติ', '1234'),
-('UDTC20250101004', 'วิทยาลัยเทคนิคอุดรธานี', 'กระบี่', 'ต่างจังหวัด', 'ไปเรียน', '2025-01-01', '21:17:00', '2025-01-01', '13:17:00', 4, '2025-01-01 20:21:12', 'รออนุมัติ', '1234'),
-('UDTC20250101005', 'วิทยาลัยเทคนิคอุดรธานี', 'กระบี่', 'ต่างจังหวัด', 'ไปเรียน', '2025-01-01', '21:17:00', '2025-01-01', '13:17:00', 4, '2025-01-01 20:21:15', 'รออนุมัติ', '1234'),
-('UDTC20250101006', 'วิทยาลัยเทคนิคอุดรธานี', 'กรุงเทพมหานคร', 'ต่างจังหวัด', 'ไปเรียน', '2025-01-01', '21:17:00', '2025-01-01', '13:17:00', 4, '2025-01-01 20:21:30', 'ยกเลิก', '1234'),
-('UDTC20250101007', 'วิทยาลัยเทคนิคอุดรธานี', 'อุดรธานี', 'ในจังหวัด', 'ไปเรียน', '2025-01-02', '20:30:00', '2025-01-03', '22:30:00', 5, '2025-01-01 20:33:17', 'ปฏิเสธ', '1234'),
-('UDTC20250101008', 'วิทยาลัยเทคนิคอุดรธานี', 'อุดรธานี', 'ในจังหวัด', 'ไปเรียน', '2025-01-02', '08:30:00', '2025-01-03', '22:30:00', 5, '2025-01-01 20:34:25', 'อนุมัติ', '1234'),
-('UDTC20250103001', 'วิทยาลัยเทคนิคอุดรธานี', 'อุดรธานี', 'ในจังหวัด', 'ไปเรียน', '2025-01-03', '10:18:00', '2025-01-03', '04:23:00', 3, '2025-01-03 10:24:10', 'รออนุมัติ', '66309010025');
+INSERT INTO `requests` (`request_id`, `destination`, `province`, `travel_type`, `purpose`, `departure_date`, `departure_time`, `return_date`, `return_time`, `passengers`, `request_date`, `status`, `user_id`, `driver_id`, `car_id`) VALUES
+('UDTC20250129001', 'วิทยาลัยเทคนิคอุดรธานี', 'อุดรธานี', 'ในจังหวัด', 'ไปเรียน', '2025-01-02', '06:30:00', '2025-01-03', '09:30:00', 3, '2025-01-29 20:44:52', 'รออนุมัติ', '66309010025', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -71,7 +61,9 @@ INSERT INTO `requests` (`request_id`, `destination`, `province`, `travel_type`, 
 --
 ALTER TABLE `requests`
   ADD PRIMARY KEY (`request_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `fk_driver` (`driver_id`),
+  ADD KEY `fk_car` (`car_id`);
 
 --
 -- Constraints for dumped tables
@@ -81,7 +73,8 @@ ALTER TABLE `requests`
 -- Constraints for table `requests`
 --
 ALTER TABLE `requests`
-  ADD CONSTRAINT `requests_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+  ADD CONSTRAINT `fk_car` FOREIGN KEY (`car_id`) REFERENCES `cars` (`car_id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_driver` FOREIGN KEY (`driver_id`) REFERENCES `drivers` (`driver_id`) ON DELETE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
