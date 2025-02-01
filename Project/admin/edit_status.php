@@ -26,19 +26,18 @@
     <?php
     require("headadmin.php");
     require("../function/BuddhistYear.php");
-    $adminid = $_SESSION["user_id"];
     if (isset($_GET['request_id'])) {
         $request_id = $_GET['request_id']; // รับค่า request_id จาก URL
         $request_id = mysqli_real_escape_string($connect, $request_id); // ป้องกัน SQL Injection
 
         // คิวรีข้อมูลของ request_id ที่ได้รับมา
         $sql = "SELECT 
-    requests.request_id, 
-    requests.user_id,
-    requests.passengers, 
     users.fullname,
     users.department, 
     users.position,
+    requests.request_id, 
+    requests.user_id,
+    requests.passengers, 
     requests.destination, 
     requests.province,
     requests.province, 
@@ -47,15 +46,16 @@
     requests.return_date, 
     requests.return_time, 
     requests.status, 
-    requests.driver_id, 
-    drivers.name AS driver_name, 
-    requests.car_id, 
-    cars.plate_number, 
+    requests.driver_id,
+    requests.car_id,
     requests.purpose, 
     requests.request_date, 
-    requests.admin_id, 
-    admins.fullname AS admin_name, 
-    admins.role AS admin_role 
+    requests.admin_id,   
+    drivers.name AS driver_name, 
+    admins.fullname AS admin_name,
+    cars.plate_number,
+    cars.province,
+    cars.car_type
 FROM requests 
 JOIN users ON requests.user_id = users.user_id 
 LEFT JOIN drivers ON requests.driver_id = drivers.driver_id 
@@ -63,13 +63,18 @@ LEFT JOIN cars ON requests.car_id = cars.car_id
 LEFT JOIN users AS admins ON requests.admin_id = admins.user_id 
 WHERE requests.request_id = '$request_id'";
 
+        $note = "SELECT * FROM `notes`
+WHERE `request_id` = '$request_id'
+ORDER BY `created_at` DESC
+LIMIT 1";
 
+        $resultnote = mysqli_query($connect, $note);
         $result = mysqli_query($connect, $sql);
-
         if (mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result); // ดึงข้อมูลแถวเดียว
             $check_start = $row["departure_date"] . " " . $row["departure_time"];
             $check_end = $row["return_date"] . " " . $row["return_time"];
+            $cardetail = $row["car_type"] . " " . $row["plate_number"] . " " . $row["province"];
         } else {
             echo "ไม่พบข้อมูล";
             exit(); // ออกจากสคริปต์หากไม่พบข้อมูล
@@ -77,6 +82,13 @@ WHERE requests.request_id = '$request_id'";
     } else {
         echo "ไม่มี request_id";
         exit();
+    }
+    if (mysqli_num_rows($resultnote) > 0) {
+        $row1 = mysqli_fetch_assoc($resultnote); // ดึงข้อมูลแถวเดียว  
+        $formatted_datetime = str_replace(" ", " เวลา ", $row1["created_at"]);
+    } else {
+        echo "ไม่พบข้อมูล";
+        exit(); // ออกจากสคริปต์หากไม่พบข้อมูล
     }
     ?>
 
@@ -122,15 +134,15 @@ WHERE requests.request_id = '$request_id'";
                         </tr>
                         <tr>
                             <th scope="row">ผู้ควบคุมรถ</th>
-                            <td><?php echo $check_start; ?></td>
+                            <td><?php echo $row["admin_name"]; ?></td>
                         </tr>
                         <tr>
                             <th scope="row">พนักงานขับรถ</th>
-                            <td>-</td>
+                            <td><?php echo $row["driver_name"]; ?></td>
                         </tr>
                         <tr>
                             <th scope="row">รถยนต์</th>
-                            <td>-</td>
+                            <td><?php echo $cardetail; ?></td>
                         </tr>
                         <!--
                     <tr>
@@ -140,21 +152,29 @@ WHERE requests.request_id = '$request_id'";
                     -->
                         <tr>
                             <th scope="row">เพิ่มเติม</th>
-                            <td>-</td>
+                            <td><?php echo $row1["note_text"]; ?></td>
                         </tr>
 
                     </tbody>
                 </table>
             </div>
-            <div class="card-footer text-end bg-light">
-                <span class="badge bg-info text-dark">เปิดอ่านแล้ว</span>
-                <span>08/12/2567 เวลา 14:47:59</span>
-            </div>
+            <?php if ($row["status"] == "อนุมัติ") { ?>
+                <div class="card-footer text-end bg-light">
+                    <span class="badge bg-success text-white">อนุมัติแล้ว</span>
+                    <span><?php echo $formatted_datetime; ?></span>
+                </div>
+            <?php } elseif ($row["status"] == "ปฏิเสธ") { ?>
+                <div class="card-footer text-end bg-light">
+                    <span class="badge bg-danger text-white">ปฏิเสธ</span>
+                    <span><?php echo $formatted_datetime; ?></span>
+                </div>
+            <?php } ?>
+
         </div>
     </div>
     <?php
     $sql2 = "
-    SELECT c.car_id, c.plate_number, c.brand, c.model
+    SELECT c.car_id, c.plate_number, c.brand, c.model,c.seats
     FROM cars c
     WHERE c.status = 'ใช้ได้ปกติ'
     AND c.car_id NOT IN (
@@ -168,17 +188,18 @@ WHERE requests.request_id = '$request_id'";
         )
     )";
     $sql3 = "
-    SELECT driver_id, name
-    FROM drivers
-    WHERE driver_id NOT IN (
-        SELECT driver_id
-        FROM requests
-        WHERE status = 'อนุมัติ'
-        AND (
-            '$check_start' BETWEEN CONCAT(departure_date, ' ', departure_time) AND CONCAT(return_date, ' ', return_time)
-            OR '$check_end' BETWEEN CONCAT(departure_date, ' ', departure_time) AND CONCAT(return_date, ' ', return_time)
-        )
-    );
+SELECT driver_id, name
+FROM drivers
+WHERE driver_id NOT IN (
+    SELECT driver_id
+    FROM requests r
+    WHERE r.status = 'อนุมัติ'
+    AND (
+        '$check_start' BETWEEN CONCAT(r.departure_date, ' ', r.departure_time) AND CONCAT(r.return_date, ' ', r.return_time)
+        OR '$check_end' BETWEEN CONCAT(r.departure_date, ' ', r.departure_time) AND CONCAT(r.return_date, ' ', r.return_time)
+        OR (CONCAT(r.departure_date, ' ', r.departure_time) BETWEEN '$check_start' AND '$check_end')
+    )
+);
 ";
     $result2 = mysqli_query($connect, $sql2);
     $result3 = mysqli_query($connect, $sql3);
@@ -192,8 +213,9 @@ WHERE requests.request_id = '$request_id'";
             <div class="card-body">
                 <form action="edit_status_pro.php" method="post">
                     <div class="mb-3">
+                        <input type="hidden" name="request_id" value="<?php echo $request_id; ?>">
                         <label for="approvalStatus" class="form-label">การอนุมัติ</label>
-                        <select class="form-select" id="approvalStatus">
+                        <select class="form-select" id="approvalStatus" name="status">
                             <option value="รออนุมัติ" <?php if ($row["status"] == 'รออนุมัติ') echo 'selected'; ?>>รออนุมัติ</option>
                             <option value="อนุมัติ" <?php if ($row["status"] == 'อนุมัติ') echo 'selected'; ?>>อนุมัติ</option>
                             <option value="ปฏิเสธ" <?php if ($row["status"] == 'ปฏิเสธ') echo 'selected'; ?>>ปฏิเสธ</option>
@@ -202,12 +224,12 @@ WHERE requests.request_id = '$request_id'";
                     <?php
                     echo '<div class="mb-3">';
                     echo '<label for="car" class="form-label">รถยนต์</label>';
-                    echo '<select class="form-select" id="car">';
+                    echo '<select class="form-select" id="car" name="car_id">';
                     echo '<option value="">ป้อนหรือคลิกเลือกจากรายการ</option>';
 
                     if ($result2->num_rows > 0) {
                         while ($row2 = $result2->fetch_assoc()) {
-                            echo '<option value="' . $row2['car_id'] . '">' . $row2['plate_number'] . ' - ' . $row2['brand'] . ' ' . $row2['model'] . '</option>';
+                            echo '<option value="' . $row2['car_id'] . '">' . $row2['plate_number'] . ' - ' . $row2['brand'] . ' ' . $row2['model'] . " ที่นั่ง" . $row2['seats'] . "คน" . '</option>';
                         }
                     } else {
                         echo '<option value="">ไม่มีรถที่ว่างในช่วงเวลานี้</option>';
@@ -219,10 +241,9 @@ WHERE requests.request_id = '$request_id'";
                     echo '<label for="driver" class="form-label">พนักงานขับรถ</label>';
                     echo '<select class="form-select" id="driver" name="driver_id">';
                     echo '<option value="">ป้อนหรือคลิกเลือกจากรายการ</option>';
-
                     // เพิ่มตัวเลือกใน select
                     if ($result3->num_rows > 0) {
-                        while ($row3 = $result->fetch_assoc()) {
+                        while ($row3 = $result3->fetch_assoc()) {  // ใช้ $result3 ที่ถูกต้อง
                             echo '<option value="' . $row3['driver_id'] . '">' . $row3['name'] . '</option>';
                         }
                     } else {
@@ -233,7 +254,7 @@ WHERE requests.request_id = '$request_id'";
                     ?>
                     <div class="mb-3">
                         <label for="notes" class="form-label">หมายเหตุ</label>
-                        <textarea class="form-control" id="notes" rows="3"></textarea>
+                        <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
                     </div>
                     <div class="text-end">
                         <button type="submit" class="btn btn-primary">บันทึกผลการอนุมัติ</button>
