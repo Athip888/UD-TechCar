@@ -8,5 +8,5 @@ session_unset();
 session_destroy();
 
 // เปลี่ยนเส้นทางไปยังหน้า login หรือหน้าแรกหลังจากออกจากระบบ
-header("Location: user/index.php");
+header("Location: index.php");
 exit();
