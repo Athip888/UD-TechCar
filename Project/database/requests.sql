@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 29, 2025 at 03:56 PM
+-- Generation Time: Feb 01, 2025 at 05:11 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,15 +42,17 @@ CREATE TABLE `requests` (
   `status` enum('รออนุมัติ','อนุมัติ','ปฏิเสธ','ยกเลิก') DEFAULT 'รออนุมัติ',
   `user_id` varchar(255) DEFAULT NULL,
   `driver_id` int(11) DEFAULT NULL,
-  `car_id` int(11) DEFAULT NULL
+  `car_id` int(11) DEFAULT NULL,
+  `admin_id` varchar(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `requests`
 --
 
-INSERT INTO `requests` (`request_id`, `destination`, `province`, `travel_type`, `purpose`, `departure_date`, `departure_time`, `return_date`, `return_time`, `passengers`, `request_date`, `status`, `user_id`, `driver_id`, `car_id`) VALUES
-('UDTC20250129001', 'วิทยาลัยเทคนิคอุดรธานี', 'อุดรธานี', 'ในจังหวัด', 'ไปเรียน', '2025-01-02', '06:30:00', '2025-01-03', '09:30:00', 3, '2025-01-29 20:44:52', 'รออนุมัติ', '66309010025', NULL, NULL);
+INSERT INTO `requests` (`request_id`, `destination`, `province`, `travel_type`, `purpose`, `departure_date`, `departure_time`, `return_date`, `return_time`, `passengers`, `request_date`, `status`, `user_id`, `driver_id`, `car_id`, `admin_id`) VALUES
+('UDTC20250201001', 'ฟกฟหกฟหก', 'กรุงเทพมหานคร', 'ต่างจังหวัด', 'ฟหกฟหกฟหก', '2025-02-01', '16:37:00', '2025-02-01', '17:37:00', 6, '2025-02-01 16:37:34', 'อนุมัติ', '66309010025', 3, 2, '1234'),
+('UDTC20250201002', 'ฟหกฟหก', 'กระบี่', 'ต่างจังหวัด', 'ฟหกฟหก', '2025-02-01', '16:57:00', '2025-02-01', '17:37:00', 3, '2025-02-01 16:38:09', 'อนุมัติ', '66309010025', 2, 1, '1234');
 
 --
 -- Indexes for dumped tables
@@ -63,7 +65,8 @@ ALTER TABLE `requests`
   ADD PRIMARY KEY (`request_id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `fk_driver` (`driver_id`),
-  ADD KEY `fk_car` (`car_id`);
+  ADD KEY `fk_car` (`car_id`),
+  ADD KEY `admin_id` (`admin_id`);
 
 --
 -- Constraints for dumped tables
@@ -74,7 +77,8 @@ ALTER TABLE `requests`
 --
 ALTER TABLE `requests`
   ADD CONSTRAINT `fk_car` FOREIGN KEY (`car_id`) REFERENCES `cars` (`car_id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_driver` FOREIGN KEY (`driver_id`) REFERENCES `drivers` (`driver_id`) ON DELETE SET NULL;
+  ADD CONSTRAINT `fk_driver` FOREIGN KEY (`driver_id`) REFERENCES `drivers` (`driver_id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `requests_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `users` (`user_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
