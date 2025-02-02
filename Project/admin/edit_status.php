@@ -151,10 +151,11 @@ LIMIT 1";
                             <th scope="row">เพิ่มเติม</th>
                             <td><?php echo isset($row1["note_text"]) ? $row1["note_text"] : ""; ?></td>
                         </tr>
-
-
                     </tbody>
                 </table>
+                <div style="text-align: right;">
+                    <a href="javascript:history.back()" class="btn btn-secondary" style="text-decoration: none;">พิมพ์</a>
+                </div>
             </div>
             <?php if ($row["status"] == "อนุมัติ") { ?>
                 <div class="card-footer text-end bg-light">
@@ -255,6 +256,7 @@ WHERE driver_id NOT IN (
                         <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
                     </div>
                     <div class="text-end">
+                    <a href="javascript:history.back()" class="btn btn-secondary" style="text-decoration: none;">พิมพ์</a>
                         <button type="submit" class="btn btn-primary">บันทึกผลการอนุมัติ</button>
                     </div>
                 </form>

@@ -191,7 +191,7 @@ function renderCalendar() {
             const requestColor = requestColors[request.request_id];
 
             const requestInfo = document.createElement('a');
-            requestInfo.href = `request_details.php?request_id=${request.request_id}`;
+            requestInfo.href = `edit_status.php?request_id=${request.request_id}`;
             requestInfo.textContent = "จองแล้ว";
             requestInfo.style.fontSize = '0.8rem';
             requestInfo.style.textDecoration = 'none';
