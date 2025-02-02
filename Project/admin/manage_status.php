@@ -49,37 +49,76 @@
     <?php
     require("headadmin.php");
     require("../function/BuddhistYear.php");
-    $sql = "SELECT * FROM requests ORDER BY request_id DESC";
+
+    // รับค่าค้นหาจากฟอร์ม
+    $search = isset($_GET['search']) ? mysqli_real_escape_string($connect, $_GET['search']) : '';
+    $status_filter = isset($_GET['status']) ? mysqli_real_escape_string($connect, $_GET['status']) : 'ทั้งหมด';
+    $from_date = isset($_GET['from_date']) ? mysqli_real_escape_string($connect, $_GET['from_date']) : '';
+    $to_date = isset($_GET['to_date']) ? mysqli_real_escape_string($connect, $_GET['to_date']) : '';
+
+    // สร้างคำสั่ง SQL ตามเงื่อนไข
+    $sql = "SELECT requests.*, users.fullname 
+        FROM requests 
+        LEFT JOIN users 
+        ON requests.user_id = users.user_id 
+        WHERE 1=1";
+
+    if (!empty($search)) {
+        $sql .= " AND (requests.request_id LIKE '%$search%' 
+              OR requests.province LIKE '%$search%'  
+              OR requests.purpose LIKE '%$search%'
+              OR requests.destination LIKE '%$search%'
+              OR users.fullname LIKE '%$search%'
+              OR users.position LIKE '%$search%'
+              OR users.department LIKE '%$search%')";
+    }
+    if ($status_filter != 'ทั้งหมด') {
+        $sql .= " AND requests.status = '$status_filter'";
+    }
+    if (!empty($from_date)) {
+        $sql .= " AND requests.departure_date >= '$from_date'";
+    }
+    if (!empty($to_date)) {
+        $sql .= " AND requests.departure_date <= '$to_date'";
+    }
+    $sql .= " ORDER BY requests.request_id DESC";
+
+
     $result = mysqli_query($connect, $sql);
     ?>
+
     <div class="container mt-5">
         <div class=" custom-card bg-white">
             <div class="card-body">
                 <h5 class="card-title">งานรออนุมัติ</h5>
-                <div class="row mb-3">
-                    <div class="col-md-3">
-                        <label for="status" class="form-label">สถานะ</label>
-                        <select class="form-select" id="status">
-                            <option selected>รออนุมัติ/อ่านแล้ว</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="from-date" class="form-label">จากวันที่</label>
-                        <input type="date" class="form-control" id="from-date">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="to-date" class="form-label">ถึงวันที่</label>
-                        <input type="date" class="form-control" id="to-date">
-                    </div>
+                <form method="GET" action="">
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <label for="status" class="form-label">สถานะ</label>
+                            <select class="form-select" id="status" name="status">
+                                <option value="ทั้งหมด" <?php if ($status_filter == 'ทั้งหมด') echo 'selected'; ?>>ทั้งหมด</option>
+                                <option value="รออนุมัติ" <?php if ($status_filter == 'รออนุมัติ') echo 'selected'; ?>>รออนุมัติ</option>
+                                <option value="อนุมัติ" <?php if ($status_filter == 'อนุมัติ') echo 'selected'; ?>>อนุมัติ</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="from-date" class="form-label">จากวันที่</label>
+                            <input type="date" class="form-control" id="from-date" name="from_date" value="<?php echo htmlspecialchars($from_date); ?>">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="to-date" class="form-label">ถึงวันที่</label>
+                            <input type="date" class="form-control" id="to-date" name="to_date" value="<?php echo htmlspecialchars($to_date); ?>">
+                        </div>
 
-                    <div class="col-md-3">
-                        <label for="search" class="form-label">ค้นหา</label>
-                        <div class="d-flex">
-                            <input type="search" class="form-control" id="search">
-                            <button class="btn btn-primary">ค้นหา</button>
+                        <div class="col-md-3">
+                            <label for="search" class="form-label">ค้นหา</label>
+                            <div class="d-flex">
+                                <input type="search" class="form-control" id="search" name="search" value="<?php echo htmlspecialchars($search); ?>">
+                                <button class="btn btn-primary" type="submit">ค้นหา</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
                 <table class="table table-bordered table-custom">
                     <thead>
                         <tr>
@@ -102,9 +141,8 @@
                                 // คอลัมน์ข้อมูล
                                 echo "<td>";
                                 echo "<p style='margin: 0; font-size: 13px;'>เลขที่เอกสาร: " . htmlspecialchars($row["request_id"]) . "</p>";
-                                echo "<p style='margin: 0; font-size: 13px;'>ทะเบียนรถ: " . htmlspecialchars($row["car_id"]) . "</p>";
+                                echo "<p style='margin: 0; font-size: 13px;'>ชื่อผู้ขอ: " . htmlspecialchars($row["fullname"]) . "</p>";
                                 echo "<p style='margin: 0; font-size: 13px;'>วันที่ใช้รถ: " . htmlspecialchars($row["departure_date"]) . " (" . htmlspecialchars($row["departure_time"]) . ") ถึง " . htmlspecialchars($row["return_date"]) . " (" . htmlspecialchars($row["return_time"]) . ")</p>";
-                                echo "<p style='margin: 0; font-size: 13px;'>แผนกที่ขอใช้: " . htmlspecialchars($row["user_id"]) . "</p>";
                                 echo "<p style='margin: 0; font-size: 13px;'>จองใช้รถเพื่อ: " . htmlspecialchars($row["purpose"]) . "</p>";
                                 echo "<p style='margin: 0; font-size: 13px;'>สถานะ: " . htmlspecialchars($row["status"]) . "</p>";
                                 echo "<p style='margin: 0; font-size: 13px;'>วันที่ขอ: " . htmlspecialchars($row["request_date"]) . "</p>";

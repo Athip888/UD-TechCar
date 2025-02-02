@@ -40,7 +40,6 @@
     requests.passengers, 
     requests.destination, 
     requests.province,
-    requests.province, 
     requests.departure_date, 
     requests.departure_time, 
     requests.return_date, 
@@ -76,7 +75,7 @@ LIMIT 1";
             $check_end = $row["return_date"] . " " . $row["return_time"];
             $cardetail = $row["car_type"] . " " . $row["plate_number"] . " " . $row["province"];
         } else {
-            echo "ไม่พบข้อมูล";
+            echo "ไม่พบ";
             exit(); // ออกจากสคริปต์หากไม่พบข้อมูล
         }
     } else {
@@ -87,8 +86,6 @@ LIMIT 1";
         $row1 = mysqli_fetch_assoc($resultnote); // ดึงข้อมูลแถวเดียว  
         $formatted_datetime = str_replace(" ", " เวลา ", $row1["created_at"]);
     } else {
-        echo "ไม่พบข้อมูล";
-        exit(); // ออกจากสคริปต์หากไม่พบข้อมูล
     }
     ?>
 
@@ -152,8 +149,9 @@ LIMIT 1";
                     -->
                         <tr>
                             <th scope="row">เพิ่มเติม</th>
-                            <td><?php echo $row1["note_text"]; ?></td>
+                            <td><?php echo isset($row1["note_text"]) ? $row1["note_text"] : ""; ?></td>
                         </tr>
+
 
                     </tbody>
                 </table>
