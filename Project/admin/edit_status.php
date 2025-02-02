@@ -85,7 +85,6 @@ LIMIT 1";
     if (mysqli_num_rows($resultnote) > 0) {
         $row1 = mysqli_fetch_assoc($resultnote); // ดึงข้อมูลแถวเดียว  
         $formatted_datetime = str_replace(" ", " เวลา ", $row1["created_at"]);
-    } else {
     }
     ?>
 
