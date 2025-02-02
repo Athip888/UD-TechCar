@@ -3,7 +3,7 @@ session_start();
 require('../config/dbconnect.php');
 if ($_SESSION['role'] == 'user') {
 }else {
-  header("Location: index.php");
+  header("Location: ../index.php");
   exit();
 }
 
