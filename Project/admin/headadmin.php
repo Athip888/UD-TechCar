@@ -204,6 +204,7 @@ $signature_path = "../user_signature/" . $signature_picture;
       <li><a href="manage_users.php"><img src="../image/person-fill-add.svg" alt="">จัดการข้อมูลผู้ใช้งาน</a></li>
       <li><a href="manage_car.php"><img src="../image/plus-circle-fill.svg" alt="">จัดการข้อมูลรถยนต์</a></li>
       <li><a href="manage_driver.php"><img src="../image/person-vcard-fill.svg" alt="">จัดการข้อมูลคนขับรถยนต์</a></li>
+      <li><a href="test.php"><img src="../image/telephone-fill.svg" alt="">สถิติ</a></li>
       <li><a href="../logout.php"><img src="../image/door-open-fill.svg" alt="">ออกจากระบบ</a></li>
     </ul>
   </aside>
