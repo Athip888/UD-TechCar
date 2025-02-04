@@ -57,11 +57,13 @@
     $to_date = isset($_GET['to_date']) ? mysqli_real_escape_string($connect, $_GET['to_date']) : '';
 
     // สร้างคำสั่ง SQL ตามเงื่อนไข
-    $sql = "SELECT requests.*, users.fullname 
+    $sql = "SELECT requests.*,
+         users.fullname, 
+         cars.car_pic
         FROM requests 
-        LEFT JOIN users 
-        ON requests.user_id = users.user_id 
-        WHERE 1=1";
+        LEFT JOIN users ON requests.user_id = users.user_id 
+        LEFT JOIN cars ON requests.car_id = cars.car_id
+        WHERE 1";
 
     if (!empty($search)) {
         $sql .= " AND (requests.request_id LIKE '%$search%' 
@@ -129,13 +131,33 @@
                     </thead>
                     <tbody>
                         <?php
-                        if (mysqli_num_rows($result) > 0) {
+                        if (mysqli_num_rows($result) > 0) {  // ตรวจสอบว่ามีข้อมูลหรือไม่
                             while ($row = $result->fetch_assoc()) {
+                                // แก้ไข SQL ให้ถูกต้อง
+                                $note_sql = "SELECT * FROM `notes`
+                                WHERE `request_id` = '" . $row["request_id"] . "'
+                                ORDER BY `created_at` DESC
+                                LIMIT 1";
+
+                                $resultnote = mysqli_query($connect, $note_sql);
+                                $row1 = mysqli_fetch_assoc($resultnote); // ดึงข้อมูลแถวเดียว
+
+                                if ($row1) {
+                                    $formatted_datetime = str_replace(" ", " เวลา ", $row1["created_at"]);
+                                } else {
+                                    $formatted_datetime = "ยังอนุมัติ"; // กำหนดค่าหากไม่มีข้อมูล
+                                }
+
+
                                 echo "<tr class='clickable-row' onclick=\"window.location.href='edit_status.php?request_id=" . htmlspecialchars($row["request_id"]) . "';\" style='cursor: pointer;'>";
 
                                 // คอลัมน์รูปภาพ
                                 echo "<td>";
-                                echo "<div style='width: 100%; height: 80px; background-color: #f8f9fa;'></div>";
+                                if (!empty($row['car_pic'])) {
+                                    echo "<img src='../car_image/" . htmlspecialchars($row['car_pic']) . "' alt='รูปภาพรถ' style='width: 100%; height: 80px; object-fit: cover; border-radius: 4px;'>";
+                                } else {
+                                    echo "<div style='width: 100%; height: 80px; background-color: #f8f9fa; display: flex; align-items: center; justify-content: center;'>ไม่มีภาพ(ยังไม่ได้อนุมัติ)</div>";
+                                }
                                 echo "</td>";
 
                                 // คอลัมน์ข้อมูล
@@ -146,12 +168,18 @@
                                 echo "<p style='margin: 0; font-size: 13px;'>จองใช้รถเพื่อ: " . htmlspecialchars($row["purpose"]) . "</p>";
                                 echo "<p style='margin: 0; font-size: 13px;'>สถานะ: " . htmlspecialchars($row["status"]) . "</p>";
                                 echo "<p style='margin: 0; font-size: 13px;'>วันที่ขอ: " . htmlspecialchars($row["request_date"]) . "</p>";
-                                echo "</td>";
+
 
                                 // คอลัมน์สถานะ
                                 echo "<td>";
-                                echo "<span class='status-label'>เปิดอ่านแล้ว</span>";
-                                echo "<p class='text-muted mt-2' style='font-size: 12px;'>08/12/2567 เวลา 14:47:59</p>";
+                                if ($row["status"] == "อนุมัติ") {
+                                    echo "<span class='status-label' style='background-color: #28a745;'>อนุมัติ</span>";
+                                } elseif ($row["status"] == "ปฏิเสธ") {
+                                    echo "<span class='status-label' style='background-color: #dc3545;'>ปฏิเสธ</span>";
+                                } else {
+                                    echo "<span class='status-label' style='background-color: #ffc107;'>รออนุมัติ</span>";
+                                }
+                                echo "<p class='text-muted mt-2' style='font-size: 12px;'>" . htmlspecialchars($formatted_datetime) . "</p>";
                                 echo "</td>";
 
                                 echo "</tr>";
@@ -163,6 +191,7 @@
                         // ปิดการเชื่อมต่อฐานข้อมูล
                         mysqli_close($connect);
                         ?>
+
                     </tbody>
 
                 </table>
